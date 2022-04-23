@@ -31,6 +31,24 @@ Objects are cached into the 3 nearest corners of the current prism on an infinit
 
 ![Objects viewed from the side](.Images/ObjectsSide.png)
 
+# Documentation
+
+### Shapes
+
+The abstract [Shape](./Shapes/Shape.cs) class represents the basis for arbitrary shapes.
+
+### Grids
+
+The [Grid](./Grids/Grid.cs) class takes a shape, size, and collection of items. There are two generic parameters: the key and value. The key represents the integer type used for indexing which must be an unmanaged unsigned numerical value. The value may represent any type and is used in the grid's collection. The collection is represented by a [HashSet](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1?view=net-6.0). This allows items to be added, removed, and searched more efficiently.
+
+This example creates a grid with a 64-bit integer (`long`) index where each grid may contain a collection of 32-bit integer (`int`) values. The input shape is a [Prism](./Shapes/Prism.cs) instance with a size of `s = 1.5 units`. The maximum grid space can be calculated as such: `m = 2^floor(n / 3)` where `n` is the number of bits in the integer. This makes our example grid cover `m * s = 3,145,728 units` along each 3-dimensional axis.
+
+```C#
+ShapeGrid.Grid<long, int> grid = new(new Prism(), 1.5f)
+```
+
+### Items
+
 # Dependencies
 
 This project was built in Unity and C#. Adaptability was considered in development, so converting to usage independent of Unity should be simple. Unity specific functions are be isolated to the [Debug folder](Debug). Mathematics otherwise throughout the project utilizes the [Unity.Mathematics](https://docs.unity3d.com/Packages/com.unity.mathematics@1.1/manual/index.html) library.
