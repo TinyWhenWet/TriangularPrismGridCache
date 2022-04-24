@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace ShapeGrid
 {
-	public sealed class ShapeGridTest : MonoBehaviour
+	public sealed class GridBallsExample : MonoBehaviour
 	{
 		// Public fields.
 		public Material material;
