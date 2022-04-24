@@ -30,10 +30,10 @@ namespace ShapeGrid
 		// Private fields.
 		private static HashSet<Type> s_types = new()
 		{
-			typeof(int),
-			typeof(long),
-			typeof(sbyte),
-			typeof(short),
+			typeof(uint),
+			typeof(ulong),
+			typeof(byte),
+			typeof(ushort),
 		};
 
 		private dynamic _offset;

@@ -41,10 +41,10 @@ The abstract [Shape](./Shapes/Shape.cs) class represents the basis for arbitrary
 
 The [Grid](./Grids/Grid.cs) class takes a shape, size, and collection of items. There are two generic parameters: the key and value. The key represents the integer type used for indexing which must be an unmanaged unsigned numerical value. The value may represent any type and is used in the grid's collection. The collection is represented by a [HashSet](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1?view=net-6.0). This allows items to be added, removed, and searched more efficiently.
 
-This example creates a grid with a 64-bit integer (`long`) index where each grid may contain a collection of 32-bit integer (`int`) values. The input shape is a [Prism](./Shapes/Prism.cs) instance with a size of `s = 1.5 units`. The maximum grid space can be calculated as such: `m = 2^floor(n / 3)` where `n` is the number of bits in the integer. This makes our example grid cover `m * s = 3,145,728 units` along each 3-dimensional axis.
+This example creates a grid with an unsigned 64-bit integer (`ulong`) index where each grid may contain a collection of 32-bit integer (`int`) values. The input shape is a [Prism](./Shapes/Prism.cs) instance with a size of `s = 1.5 units`. The maximum grid space can be calculated as such: `m = 2^floor(n / 3)` where `n` is the number of bits in the integer. This makes our example grid cover `m * s = 3,145,728 units` along each 3-dimensional axis.
 
 ```C#
-ShapeGrid.Grid<long, int> grid = new(new Prism(), 1.5f)
+ShapeGrid.Grid<ulong, int> grid = new(new Prism(), 1.5f)
 ```
 
 ### Items

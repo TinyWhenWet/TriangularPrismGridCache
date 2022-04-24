@@ -17,10 +17,10 @@ namespace ShapeGrid
 		private const float k_size = 8f;
 
 		private Prism _prism = new();
-		private ShapeGrid.Grid<int, GameObject> _grid = new(new Prism(), k_size);
+		private ShapeGrid.Grid<uint, GameObject> _grid = new(new Prism(), k_size);
 		private Texture2D _tex;
 		private float _lastSpawn;
-		private Queue<Item<int, GameObject>> _instances = new();
+		private Queue<Item<uint, GameObject>> _instances = new();
 
 		// Public methods.
 		public void Generate()
@@ -142,7 +142,7 @@ namespace ShapeGrid
 			}
 
 			// Update test instances - a crude example of how to use the grid.
-			foreach (Item<int, GameObject> instance in _instances)
+			foreach (Item<uint, GameObject> instance in _instances)
 			{
 				GameObject gameObject = instance.Value;
 				
@@ -163,7 +163,7 @@ namespace ShapeGrid
 				// Test finding nearby items.
 				HashSet<GameObject> drawn = new();
 
-				foreach (int corner in instance.Corners)
+				foreach (uint corner in instance.Corners)
 				{
 					if (!_grid.Items.TryGetValue(corner, out HashSet<GameObject> items))
 					{
@@ -215,7 +215,7 @@ namespace ShapeGrid
 			if (_instances.Count > 100)
 			{
 				// Get the oldest instance.
-				Item<int, GameObject> _instance = _instances.Dequeue();
+				Item<uint, GameObject> _instance = _instances.Dequeue();
 
 				// Make sure the instance still exists.
 				if (_instance.Value != null)
