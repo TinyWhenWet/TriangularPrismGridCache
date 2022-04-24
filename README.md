@@ -25,12 +25,6 @@ While convenient, cubes are not entirely efficient. This method proposes the usa
 
 When indexing, each grid needs a unique key to represent it for the partition. The spatial coordinates can be converted into a 32-bit integer, which limits each dimension to 1024 partitions. A 64-bit integer is used for larger spaces, limiting each dimension to 2,097,152 partitions. The spatial encoder also supports 8-bit and 16-bit for *very* small grid spaces. Each coordinate's axes are encoded into an n-bit integer using bit-shifting.
 
-Objects are cached into the 3 nearest corners of the current prism on an infinite 3-dimensional grid using the encoded integer. Furthermore, by looking up an object's indexes in the cache, nearby objects can be discovered. This is useful for a multitude of applications where objects are interdependent.
-
-![Objects viewed from above](.Images/ObjectsTop.gif)
-
-![Objects viewed from the side](.Images/ObjectsSide.png)
-
 # Documentation
 
 ### Shapes
@@ -48,6 +42,24 @@ ShapeGrid.Grid<ulong, int> grid = new(new Prism(), 1.5f)
 ```
 
 ### Items
+
+# Examples
+
+Objects are cached into the 3 nearest corners of the current prism on an infinite 3-dimensional grid using the encoded integer. Furthermore, by looking up an object's indexes in the cache, nearby objects can be discovered. This is useful for a multitude of applications where objects are interdependent.
+
+### Moving Objects
+
+As shown by [GridBallsExample.cs](Debug/GridBallsExample.cs), multiple dynamic objects can be tracked as they move around.
+
+![Objects viewed from above](.Images/ObjectsTop.gif)
+
+![Objects viewed from the side](.Images/ObjectsSide.png)
+
+### Vertx Searching
+
+As shown by [MeshVerticesExample.cs](Debug/MeshVerticesExample.cs), a mesh's vertices can be cached and used to find nearby vertices given a point. This is a rather simple implementation and doesn't include animated (skinned) meshes or largely spaced vertices. If your goal is to find the closest vertex, you could create several grids with various sizes, and then search the grids from smallest to largest. The smaller grids will have less items and be quicker to search. The larger grids ensure that an item *will* be found at the cost of performance.
+
+![Nearby vertices](.Images/MeshVertices.png)
 
 # Dependencies
 
