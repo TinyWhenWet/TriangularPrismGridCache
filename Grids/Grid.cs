@@ -31,41 +31,68 @@ namespace ShapeGrid
 			return _encoder.Decode(key, Size / Shape.Scale);
 		}
 
-		public virtual bool Add(float3 position, TValue item)
+		public virtual int Add(float3 position, TValue item)
 		{
-			TKey key = GetIndex(position);
+			int count = 0;
+			float3[] corners = Shape.GetCorners(position, Shape.GetGrid(position, Size), Size);
 
-			if (!Items.TryGetValue(key, out HashSet<TValue> set))
+			foreach (float3 corner in corners)
 			{
-				set = new HashSet<TValue>();
-				Items.Add(key, set);
+				TKey key = GetIndex(corner);
+				
+				if (!Items.TryGetValue(key, out HashSet<TValue> set))
+				{
+					set = new HashSet<TValue>();
+					Items.Add(key, set);
+				}
+
+				if (set.Add(item))
+				{
+					count++;
+				}
 			}
 
-			return set.Add(item);
+			return count;
 		}
-
-		public virtual bool Remove(float3 position, TValue item)
+		
+		public virtual int Remove(float3 position, TValue item)
 		{
-			TKey key = GetIndex(position);
+			int count = 0;
+			float3[] corners = Shape.GetCorners(position, Shape.GetGrid(position, Size), Size);
 
-			if (!Items.TryGetValue(key, out HashSet<TValue> set))
+			foreach (float3 corner in corners)
 			{
-				return false;
+				TKey key = GetIndex(corner);
+				
+				if (!Items.TryGetValue(key, out HashSet<TValue> set))
+				{
+					continue;
+				}
+
+				if (set.Remove(item))
+				{
+					count++;
+				}
 			}
 
-			return set.Remove(item);
+			return count;
 		}
 
 		public virtual bool Contains(float3 position, TValue item)
 		{
-			TKey key = GetIndex(position);
+			float3[] corners = Shape.GetCorners(position, Shape.GetGrid(position, Size), Size);
 
-			if (!Items.TryGetValue(key, out HashSet<TValue> set))
+			foreach (float3 corner in corners)
 			{
-				return false;
+				TKey key = GetIndex(corner);
+				
+				if (Items.TryGetValue(key, out HashSet<TValue> set) && set.Contains(item))
+				{
+					return true;
+				}
 			}
 
-			return set.Contains(item);
+			return false;
 		}
 	}
 }
