@@ -57,9 +57,9 @@ namespace ShapeGrid
 			dynamic mask = (1 << _y) - 1;
 
 			return new(
-				(((value >> _x) & mask) - _offset) * size,
-				(((value >> _y) & mask) - _offset) * size,
-				(((value >> _z) & mask) - _offset) * size
+				(float)(((value >> _x) & mask) - _offset) * size,
+				(float)(((value >> _y) & mask) - _offset) * size,
+				(float)(((value >> _z) & mask) - _offset) * size
 			);
 		}
 	}
