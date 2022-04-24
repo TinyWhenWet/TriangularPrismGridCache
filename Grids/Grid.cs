@@ -23,12 +23,12 @@ namespace ShapeGrid
 		// Public methods.
 		public virtual TKey GetIndex(float3 position)
 		{
-			return _encoder.Encode(position, Size / 2f);
+			return _encoder.Encode(position, Size / Shape.Scale);
 		}
 
 		public virtual float3 GetPosition(TKey key)
 		{
-			return _encoder.Decode(key, Size / 2f);
+			return _encoder.Decode(key, Size / Shape.Scale);
 		}
 
 		public virtual bool Add(float3 position, TValue item)

@@ -6,6 +6,8 @@ namespace ShapeGrid
 	public class Prism : Shape
 	{
 		// Public properties.
+		public override float Scale => 2f;
+
 		public override int[] Indices => new int[]
 		{
 			2, 1, 0,

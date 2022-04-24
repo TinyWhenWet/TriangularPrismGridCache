@@ -4,8 +4,10 @@ namespace ShapeGrid
 {
 	public abstract class Shape
 	{
+		public abstract float Scale { get; }
+
 		public abstract int[] Indices { get; }
-		
+
 		public abstract float3[] Vertices { get; }
 
 		public abstract float3[] GetCorners(float3 position, int3 grid, float size = 1f);
