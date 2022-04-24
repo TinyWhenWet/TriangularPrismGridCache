@@ -14,10 +14,10 @@ namespace ShapeGrid
 		public bool enableSpawning;
 
 		// Private fields.
-		private const float k_size = 5f;
+		private const float k_size = 8f;
 
 		private Prism _prism = new();
-		private ShapeGrid.Grid<int, GameObject> _grid = new(new Prism(), 2f * k_size);
+		private ShapeGrid.Grid<int, GameObject> _grid = new(new Prism(), k_size);
 		private Texture2D _tex;
 		private float _lastSpawn;
 		private Queue<Item<int, GameObject>> _instances = new();
@@ -97,8 +97,8 @@ namespace ShapeGrid
 
 		private void Update()
 		{
-			int width = 4;
-			int height = 2;
+			int width = 8;
+			int height = 4;
 			int depth = 3;
 			int resolution = width * height;
 
@@ -117,13 +117,13 @@ namespace ShapeGrid
 			// Draw the grid.
 			for (int i = 0; i < resolution * depth; i++)
 			{
-				int x = i % resolution / width;
+				int x = i % resolution / width - height / 2;
 				int y = i / resolution - depth / 2;
-				int z = i % resolution % width;
+				int z = i % resolution % width - width / 2;
 				
 				Color color = pivotGrid.x == x && pivotGrid.y == y && pivotGrid.z == z ? new Color(0f, 1f, 0f, 0.3f) : new Color(1f, 1f, 0f, 0.05f);
 
-				Test(new(x, y, z), k_size, color);
+				DrawGrid(new(x, y, z), k_size, color);
 			}
 
 			// Draw the pivot to the center of the grid.
@@ -170,6 +170,10 @@ namespace ShapeGrid
 						continue;
 					}
 
+					float3 cornerPosition = _grid.GetPosition(corner);
+
+					Debug.DrawLine(gameObject.transform.position, (Vector3)cornerPosition, Color.green);
+
 					foreach (GameObject item in items)
 					{
 						if (item == null || drawn.Contains(item))
@@ -193,7 +197,7 @@ namespace ShapeGrid
 			}
 		}
 
-		private void Test(int3 grid, float size, Color color)
+		private void DrawGrid(int3 grid, float size, Color color)
 		{
 			// Get the grid position.
 			Vector3 position = transform.TransformPoint(_prism.GetPosition(grid, size));
