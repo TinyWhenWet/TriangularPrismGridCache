@@ -1,7 +1,9 @@
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Mathematics;
 using Random = UnityEngine.Random;
+using Debug = UnityEngine.Debug;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Unity.Mathematics;
+using UnityEngine;
 
 namespace ShapeGrid
 {
@@ -35,31 +37,6 @@ namespace ShapeGrid
 
 			filter.sharedMesh = ShapeTools.GenerateMesh(_prism.Vertices, _prism.Indices, k_size);
 
-			// int size = 64;
-			// HashSet<int> test = new();
-
-			// for (int x = 0; x < size; x++)
-			// {
-			// 	for (int y = 0; y < size; y++)
-			// 	{
-			// 		for (int z = 0; z < size; z++)
-			// 		{
-			// 			float3 position = new float3(x, y, z) * k_size - new float3(size, size, size) * k_size * 0.5f;
-			// 			int index = _grid.GetIndex(position);
-
-			// 			// Debug.Log($"{index} - {position}");
-
-			// 			if (test.Contains(index))
-			// 			{
-			// 				Debug.Log($"Duplicate index: {index} at {position}");
-			// 				return;
-			// 			}
-
-			// 			test.Add(index);
-			// 		}
-			// 	}
-			// }
-
 			_tex = new(Screen.height / 2, Screen.height / 2);
 			float scale = 0.02f;
 
@@ -79,6 +56,7 @@ namespace ShapeGrid
 		// Private methods.
 		private void OnEnable()
 		{
+			CollisionCheck(32);
 			Generate();
 		}
 
@@ -240,6 +218,38 @@ namespace ShapeGrid
 
 			// Create and cache the item instance.
 			_instances.Enqueue(new(_grid, position, instance));
+		}
+
+		private void CollisionCheck(int size)
+		{
+			HashSet<uint> test = new();
+
+			Stopwatch stopwatch = new();
+			stopwatch.Start();
+
+			for (int x = 0; x < size; x++)
+			{
+				for (int y = 0; y < size; y++)
+				{
+					for (int z = 0; z < size; z++)
+					{
+						float3 position = new float3(x, y, z) * k_size - new float3(size, size, size) * k_size * 0.5f;
+						uint index = _grid.GetIndex(position);
+
+						// Debug.Log($"{index} - {position}");
+
+						if (test.Contains(index))
+						{
+							Debug.Log($"Duplicate index: {index} at {position}");
+							return;
+						}
+
+						test.Add(index);
+					}
+				}
+			}
+
+			Debug.Log($"Done searching {Mathf.Pow(size, 3)} grids for collisions in {stopwatch.ElapsedMilliseconds}ms");
 		}
 	}
 }
