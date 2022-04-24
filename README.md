@@ -1,7 +1,7 @@
 <h1 align="center">
 	<img src=".Images/PrismGrid.png" alt="Prism Grids" width="300">
 	<br>
-	Prism Based Grid Caching
+	Triangular Prism Based Grid Caching
 </h1>
 
 <p align="center">
@@ -21,7 +21,7 @@
 
 It's a common optimization practice to partion large amounts of objects into grids. Given any point or object in space, nearby objects can be found by searching only the grid partions in proximity to the point or object. A simple and popular approach for calculating the grid index utilizes squares (2D) or cubes (3D) which rounds the input position into a chunk given an arbitrary size.
 
-While convenient, cubes are not entirely efficient. This method proposes the usage of triangles (2D) and prisms (3D) for index caching. A cube has 8 total points while a prism has 6. Nearby objects can be found by searching proximal partitions. It should be noted that searching all adjacent grids is redundant. It's only necessary to search immediately adjcent grids given a point. Additionally, this method caches the object directly to the 3 nearest corners of the current prism (or 2 given a triangle). Mitigating the search of nearby partitions during lookup. This trades off more memory usage and slower index caching speeds for faster index searching speeds. An object only needs to be indexed upon moving a considerable distance. Whereas searching may be a constant process.
+While convenient, cubes are not entirely efficient. This method proposes the usage of triangles (2D) and prisms (3D) for index caching (triangular prisms are referred to as prisms throughout this project to keep things simple). A cube has 8 total points while a prism has 6. Nearby objects can be found by searching proximal partitions. It should be noted that searching all adjacent grids is redundant. It's only necessary to search immediately adjcent grids given a point. Additionally, this method caches the object directly to the 3 nearest corners of the current prism (or 2 given a triangle). Mitigating the search of nearby partitions during lookup. This trades off more memory usage and slower index caching speeds for faster index searching speeds. An object only needs to be indexed upon moving a considerable distance. Whereas searching may be a constant process.
 
 When indexing, each grid needs a unique key to represent it for the partition. The spatial coordinates can be converted into a 32-bit integer, which limits each dimension to 1024 partitions. A 64-bit integer is used for larger spaces, limiting each dimension to 2,097,152 partitions. The spatial encoder also supports 8-bit and 16-bit for *very* small grid spaces. Each coordinate's axes are encoded into an n-bit integer using bit-shifting.
 
