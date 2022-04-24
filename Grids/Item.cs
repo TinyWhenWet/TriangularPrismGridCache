@@ -13,9 +13,9 @@ namespace ShapeGrid
 			Position = position;
 		}
 
-		// Private fields.
-		private float3 _position;
-		private float3? _lastPosition = null;
+		// Protected fields.
+		protected float3 _position;
+		protected float3? _lastPosition = null;
 
 		// Public properties.
 		public Grid<TKey, TValue> Grid { get; private set; }
@@ -45,7 +45,7 @@ namespace ShapeGrid
 			return Value?.GetHashCode() ?? 0;
 		}
 
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			if (Corners == null)
 			{
@@ -63,8 +63,8 @@ namespace ShapeGrid
 			Corners = null;
 		}
 
-		// Private methods.
-		private bool ShouldUpdate()
+		// Protected methods.
+		protected virtual bool ShouldUpdate()
 		{
 			if (!_lastPosition.HasValue)
 			{
@@ -77,7 +77,7 @@ namespace ShapeGrid
 			return magnitude > 1f;
 		}
 
-		private void UpdatePosition()
+		protected virtual void UpdatePosition()
 		{
 			// Cache shape.
 			Shape shape = Grid.Shape;

@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace ShapeGrid
 {
-	public class Prism : Shape
+	public sealed class Prism : Shape
 	{
 		// Public properties.
 		public override float Scale => 2f;

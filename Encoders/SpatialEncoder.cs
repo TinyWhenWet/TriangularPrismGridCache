@@ -4,7 +4,7 @@ using Unity.Mathematics;
 
 namespace ShapeGrid
 {
-	public sealed class SpatialEncoder<T> where T : unmanaged
+	public class SpatialEncoder<T> where T : unmanaged
 	{
 		public SpatialEncoder()
 		{
@@ -27,8 +27,8 @@ namespace ShapeGrid
 			_offset = Math.Pow(2, componentSize) / 2 - 1;
 		}
 
-		// Private fields.
-		private static HashSet<Type> s_types = new()
+		// Protected fields.
+		protected static HashSet<Type> s_types = new()
 		{
 			typeof(uint),
 			typeof(ulong),
@@ -36,14 +36,14 @@ namespace ShapeGrid
 			typeof(ushort),
 		};
 
-		private dynamic _offset;
-		private int _bits;
-		private int _x;
-		private int _y;
-		private int _z;
+		protected dynamic _offset;
+		protected int _bits;
+		protected int _x;
+		protected int _y;
+		protected int _z;
 
 		// Public methods.
-		public T Encode(float3 position, float size = 1f)
+		public virtual T Encode(float3 position, float size = 1f)
 		{
 			return (T)(dynamic)(
 				(long)(position.x / size + _offset) << _x |
@@ -52,7 +52,7 @@ namespace ShapeGrid
 			);
 		}
 
-		public float3 Decode(dynamic value, float size = 1f)
+		public virtual float3 Decode(dynamic value, float size = 1f)
 		{
 			dynamic mask = (1 << _y) - 1;
 

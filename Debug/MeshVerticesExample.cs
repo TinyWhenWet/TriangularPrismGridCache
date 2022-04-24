@@ -1,12 +1,12 @@
+using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Unity.Mathematics;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace ShapeGrid
 {
-	public class MeshVerticesExample : MonoBehaviour
+	public sealed class MeshVerticesExample : MonoBehaviour
 	{
 		public float gridSize = 0.3f;
 
@@ -55,15 +55,6 @@ namespace ShapeGrid
 			{
 				_grid.Add(_vertices[i], i);
 			}
-
-			// (float3 position, int item)[] items = new (float3 position, int item)[_vertices.Count];
-
-			// for (int i = 0; i < items.Length; i++)
-			// {
-			// 	items[i] = (position: _vertices[i], item: i);
-			// }
-
-			// _grid.Add(items);
 
 			Debug.Log($"Caching {_vertices.Count} vertices took {_stopwatch.ElapsedMilliseconds}ms");
 
