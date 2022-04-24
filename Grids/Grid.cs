@@ -33,7 +33,7 @@ namespace ShapeGrid
 
 		public virtual bool Add(float3 position, TValue item)
 		{
-			TKey key = _encoder.Encode(position, Size);
+			TKey key = GetIndex(position);
 
 			if (!Items.TryGetValue(key, out HashSet<TValue> set))
 			{
@@ -46,7 +46,7 @@ namespace ShapeGrid
 
 		public virtual bool Remove(float3 position, TValue item)
 		{
-			TKey key = _encoder.Encode(position, Size);
+			TKey key = GetIndex(position);
 
 			if (!Items.TryGetValue(key, out HashSet<TValue> set))
 			{
@@ -58,7 +58,7 @@ namespace ShapeGrid
 
 		public virtual bool Contains(float3 position, TValue item)
 		{
-			TKey key = _encoder.Encode(position, Size);
+			TKey key = GetIndex(position);
 
 			if (!Items.TryGetValue(key, out HashSet<TValue> set))
 			{
